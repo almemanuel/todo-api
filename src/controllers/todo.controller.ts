@@ -12,12 +12,33 @@ export const getTodos = async (req: Request, res: Response) => {
   res.json(todos)
 }
 
+// GET /todos/:id - busca um to-do pelo id
+export const getById = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const todo = await prisma.todo.findUnique({
+        where: { id: Number(id) }
+    })
+
+    if (!todo) {
+        res.status(404).json({error: 'Todo não encontrado'})
+        return
+    }
+
+    res.json(todo)
+}
+
 // POST /todos - cria um novo to-do
 export const createTodo = async (req: Request, res: Response) => {
     const { title} = req.body
     const todo = await prisma.todo.create({
         data: { title}
     })
+
+    if (!todo) {
+        res.status(404).json({error: 'Todo não encontrado'})
+        return
+    }
+
     res.status(201).json(todo)
 }
 
@@ -29,6 +50,12 @@ export const updateTodo = async (req: Request, res: Response) => {
         where: { id: Number(id) },
         data: { title, done }
     })
+    
+    if (!todo) {
+        res.status(404).json({error: 'Todo não encontrado'})
+        return
+    }
+
     res.json(todo)
 }
 
