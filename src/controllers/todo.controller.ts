@@ -30,6 +30,11 @@ export const getById = async (req: Request, res: Response) => {
 // POST /todos - cria um novo to-do
 export const createTodo = async (req: Request, res: Response) => {
     const { title} = req.body
+    if (!title) {
+        res.status(400).json({ error: 'O campo title é obrigatório' })
+        return
+    }
+    
     const todo = await prisma.todo.create({
         data: { title}
     })
