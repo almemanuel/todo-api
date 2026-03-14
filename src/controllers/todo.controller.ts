@@ -34,36 +34,33 @@ export const createTodo = async (req: Request, res: Response) => {
         data: { title}
     })
 
-    if (!todo) {
-        res.status(404).json({error: 'Todo não encontrado'})
-        return
-    }
-
     res.status(201).json(todo)
 }
 
 // PUT /todos/:id - atualiza um todo
 export const updateTodo = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { title, done } = req.body
-    const todo = await prisma.todo.update({
-        where: { id: Number(id) },
-        data: { title, done }
-    })
-    
-    if (!todo) {
-        res.status(404).json({error: 'Todo não encontrado'})
-        return
+    try {
+        const { title, done } = req.body
+        const todo = await prisma.todo.update({
+            where: { id: Number(id) },
+            data: { title, done }
+        })
+        res.json(todo)
+    } catch {
+        res.status(404).json({ error: 'Todo não encontrado' })
     }
-
-    res.json(todo)
 }
 
 // DELETE /todos/:id - deleta um todo
 export const deleteTodo = async (req: Request, res: Response) => {
     const { id } = req.params
-    await prisma.todo.delete({
+    try {
+        await prisma.todo.delete({
         where: { id: Number(id) }
-    })
-    res.status(204).send()
+        })
+        res.status(204).send()
+    } catch {
+        res.status(404).json({ error: 'Todo não encontrado' })
+    }
 }
