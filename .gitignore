@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*.local
+
+# Build output
+dist/
+build/
+out/
+coverage/
+lib/
+*.tsbuildinfo
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations/
+prisma/.env
+
+# Postgres data (if any local data directories)
+pgdata/
+postgres-data/
+*.pgsql
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode settings
+.vscode/
